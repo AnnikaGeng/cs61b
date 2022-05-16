@@ -116,9 +116,8 @@ public class ArrayDeque<T> {
             return null;
         }
         int ptr = left;
-        while (index > 0) {
+        for (int i = 0; i < index; i++) {
             ptr = plusOne(ptr, length);
-            index--;
         }
         return items[ptr];
     }
