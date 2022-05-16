@@ -1,14 +1,14 @@
 public class ArrayDeque<T> {
-    private T[] items;
-    private int left;
-    private int right;
+    private T[] array;
+    private int front;
+    private int last;
     private int size;
     private int length;
 
     public ArrayDeque() {
-        items = (T[]) new Object[8];
-        left = 4;
-        right = 4;
+        array = (T[]) new Object[8];
+        front = 4;
+        last = 4;
         size = 0;
         length = 8;
     }
@@ -28,7 +28,6 @@ public class ArrayDeque<T> {
         return index - 1;
     }
 
-    /** something may be wrong here */
     private int plusOne(int index, int module) {
         index %= module;
         if (index == module - 1) {
@@ -39,31 +38,31 @@ public class ArrayDeque<T> {
 
     private void grow() {
         T[] newArray = (T[]) new Object[length * 2];
-        int ptr1 = left;
+        int ptr1 = front;
         int ptr2 = length;
-        while (ptr1 != right) {
-            newArray[ptr2] = items[ptr1];
+        while (ptr1 != last) {
+            newArray[ptr2] = array[ptr1];
             ptr1 = plusOne(ptr1, length);
             ptr2 = plusOne(ptr2, length * 2);
         }
-        left = length;
-        right = ptr2;
-        items = newArray;
+        front = length;
+        last = ptr2;
+        array = newArray;
         length *= 2;
     }
 
     private void shrink() {
         T[] newArray = (T[]) new Object[length / 2];
-        int ptr1 = left;
+        int ptr1 = front;
         int ptr2 = length / 4;
-        while (ptr1 != right) {
-            newArray[ptr2] = items[ptr1];
+        while (ptr1 != last) {
+            newArray[ptr2] = array[ptr1];
             ptr1 = plusOne(ptr1, length);
             ptr2 = plusOne(ptr2, length / 2);
         }
-        left = ptr2;
-        right = length / 4;
-        items = newArray;
+        front = length / 4;
+        last = ptr2;
+        array = newArray;
         length /= 2;
     }
 
@@ -71,8 +70,8 @@ public class ArrayDeque<T> {
         if (size == length - 1) {
             grow();
         }
-        left = minusOne(left);
-        items[left] = item;
+        front = minusOne(front);
+        array[front] = item;
         size++;
     }
 
@@ -80,8 +79,8 @@ public class ArrayDeque<T> {
         if (size == length - 1) {
             grow();
         }
-        items[right] = item;
-        right = plusOne(right, length);
+        array[last] = item;
+        last = plusOne(last, length);
         size++;
     }
 
@@ -92,8 +91,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T item = items[left];
-        left = plusOne(left, length);
+        T item = array[front];
+        front = plusOne(front, length);
         size--;
         return item;
     }
@@ -105,27 +104,27 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        right = minusOne(right);
-        T item = items[right];
+        last = minusOne(last);
+        T item = array[last];
         size--;
         return item;
     }
 
     public T get(int index) {
-        if (index >= size) {
+        if (index > size) {
             return null;
         }
-        int ptr = left;
+        int ptr = front;
         for (int i = 0; i < index; i++) {
             ptr = plusOne(ptr, length);
         }
-        return items[ptr];
+        return array[ptr];
     }
 
     public void printDeque() {
-        int ptr = left;
-        while (ptr != right) {
-            System.out.print(items[ptr] + " ");
+        int ptr = front;
+        while (ptr != last) {
+            System.out.print(array[ptr] + " ");
             ptr = plusOne(ptr, length);
         }
     }
