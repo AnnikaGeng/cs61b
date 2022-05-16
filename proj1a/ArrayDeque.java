@@ -7,7 +7,8 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
-        left = right = 4;
+        left = 4;
+        right = 4;
         size = 0;
         length = 8;
     }
@@ -30,7 +31,7 @@ public class ArrayDeque<T> {
     /** something may be wrong here */
     private int plusOne(int index, int module) {
         index %= module;
-        if (index == length - 1) {
+        if (index == module - 1) {
             return 0;
         }
         return index + 1;
@@ -45,6 +46,10 @@ public class ArrayDeque<T> {
             ptr1 = plusOne(ptr1, length);
             ptr2 = plusOne(ptr2, length * 2);
         }
+        left = length;
+        right = ptr2;
+        items = newArray;
+        length *= 2;
     }
 
     private void shrink() {
@@ -111,7 +116,7 @@ public class ArrayDeque<T> {
             return null;
         }
         int ptr = left;
-        while (index != 0) {
+        while (index > 0) {
             ptr = plusOne(ptr, length);
             index--;
         }

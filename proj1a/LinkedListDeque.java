@@ -99,6 +99,6 @@ public class LinkedListDeque<T> {
         if (i == 0) {
             return node.item;
         }
-        return getRecursive(node.next, i--);
+        return getRecursive(node.next, i - 1);
     }
 }
