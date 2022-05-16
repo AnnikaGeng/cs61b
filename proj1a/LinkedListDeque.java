@@ -3,9 +3,9 @@ public class LinkedListDeque<T> {
     private IntNode sentinel;
 
     public class IntNode {
-        public T item;
-        public IntNode next;
-        public IntNode prev;
+        private T item;
+        private IntNode next;
+        private IntNode prev;
 
         public IntNode(T i, LinkedListDeque<T>.IntNode n, LinkedListDeque<T>.IntNode p) {
             item = i;
@@ -15,7 +15,7 @@ public class LinkedListDeque<T> {
     }
 
     public LinkedListDeque() {
-        sentinel = new IntNode((T) new Object(),null,null);
+        sentinel = new IntNode((T) new Object(), null, null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
@@ -24,14 +24,14 @@ public class LinkedListDeque<T> {
 
     public void addFirst(T item) {
         size += 1;
-        IntNode cur = new IntNode(item,sentinel,sentinel.next);
+        IntNode cur = new IntNode(item, sentinel, sentinel.next);
         sentinel.next.prev = cur;
         sentinel.next = cur;
     }
 
     public void addLast(T item) {
         size += 1;
-        IntNode cur = new IntNode(item,sentinel,sentinel.prev);
+        IntNode cur = new IntNode(item, sentinel, sentinel.prev);
         sentinel.prev.next = cur;
         sentinel.prev = cur;
     }
