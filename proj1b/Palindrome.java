@@ -9,27 +9,26 @@ public class Palindrome {
     }
 
     public boolean isPalindrome(String word) {
-        if (word == null) {
-            return true;
-        }
         Deque<Character> wordArray = wordToDeque(word);
-        return isPalindromeRecursive(wordArray);
+        while (wordArray.size() > 1) {
+            if (wordArray.removeFirst() != wordArray.removeLast()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    private boolean isPalindromeRecursive(Deque<Character> d) {
-        if (d.size() <= 1) {
-            return true;
-        }
-        if (d.removeFirst() != d.removeLast()) {
-            return false;
-        }
-        return isPalindromeRecursive(d);
-    }
+//    private boolean isPalindromeRecursive(Deque<Character> d) {
+//        if (d.size() <= 1) {
+//            return true;
+//        }
+//        if (d.removeFirst() != d.removeLast()) {
+//            return false;
+//        }
+//        return isPalindromeRecursive(d);
+//    }
 
-    public boolean isPalindrome(CharacterComparator cc, String word) {
-        if (word == null) {
-            return true;
-        }
+    public boolean isPalindrome(String word, CharacterComparator cc) {
         Deque<Character> d = wordToDeque(word);
         while (d.size() > 1) {
             if (!cc.equalChars(d.removeFirst(), d.removeLast())) {

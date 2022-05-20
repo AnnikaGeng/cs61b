@@ -7,6 +7,6 @@ public class TestOffByN {
 
     @Test
     public void testOffByN() {
-        assertTrue(palindrome.isPalindrome(offByN, "flake"));
+        assertTrue(palindrome.isPalindrome("flake", offByN));
     }
 }
