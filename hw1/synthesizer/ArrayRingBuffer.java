@@ -1,7 +1,9 @@
+
 package synthesizer;
 import java.util.Iterator;
 
-public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
+
+public class ArrayRingBuffer<T>  extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
@@ -13,11 +15,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
-        first = 0;
-        last = 0;
-        fillCount = 0;
-        this.capacity = capacity;
         rb = (T[]) new Object[capacity];
+        first = last = fillCount = 0;
+        this.capacity = capacity;
     }
 
     /**
@@ -25,11 +25,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * throw new RuntimeException("Ring buffer overflow"). Exceptions
      * covered Monday.
      */
-
     @Override
     public void enqueue(T x) {
-        if (isFull()) {
-            throw new RuntimeException("Ring buffer underflow");
+        if (isFull()){
+            throw new RuntimeException("Ring buffer overflow");
         }
         rb[last] = x;
         fillCount++;
@@ -43,13 +42,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public T dequeue() {
-        if (isEmpty()) {
+
+        if (isEmpty()){
             throw new RuntimeException("Ring buffer underflow");
         }
-        T res = rb[first];
-        first = (first + 1) % capacity;
+        T retValue = rb[first];
         fillCount--;
-        return res;
+        first = (first + 1) % capacity;
+        return retValue;
     }
 
     /**
@@ -57,21 +57,16 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public T peek() {
+
         return rb[first];
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return new BufferIterator();
-    }
 
-
-    private class BufferIterator implements Iterator<T> {
-        private int position;
+    private class ArrayRingBufferIterator implements Iterator<T> {
+        private int pos;
         private int curNum;
-
-        BufferIterator() {
-            position = first;
+        public ArrayRingBufferIterator() {
+            pos = first;
             curNum = 0;
         }
 
@@ -80,10 +75,15 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         }
 
         public T next() {
-            T returnVal = (T) rb[position];
-            position = (position + 1) % capacity;
+            T retValue = rb[pos];
+            pos = (pos + 1) % capacity;
             curNum++;
-            return returnVal;
+            return retValue;
         }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayRingBufferIterator();
     }
 }
