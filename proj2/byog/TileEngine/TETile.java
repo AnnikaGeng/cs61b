@@ -1,10 +1,6 @@
 package byog.TileEngine;
 
 import java.awt.Color;
-<<<<<<< HEAD
-=======
-
->>>>>>> newbranch
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
@@ -27,11 +23,7 @@ import byog.Core.RandomUtils;
  */
 
 public class TETile implements Serializable {
-<<<<<<< HEAD
-=======
-
     private static final long serialVersionUID = 389102514428468720L;
->>>>>>> newbranch
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
