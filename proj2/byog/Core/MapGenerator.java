@@ -23,7 +23,7 @@ public class MapGenerator implements Serializable {
         Room.connectRooms(random, world, rooms);
         Room.beautify(world);
         door = Room.addDoor(random, world);
-        player = Room.addPlayer(random,world);
+        player = Room.addPlayer(random, world);
         return world;
     }
 
