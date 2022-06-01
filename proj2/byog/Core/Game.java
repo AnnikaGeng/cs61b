@@ -89,25 +89,25 @@ public class Game {
                         finalWorldFrame[map.player.x][map.player.y] = Tileset.FLOOR;
                         finalWorldFrame[map.player.x][map.player.y + 1] = Tileset.PLAYER;
                         map.player.y += 1;
-                        ter.renderFrame(finalWorldFrame);
+                        //ter.renderFrame(finalWorldFrame);
                         return finalWorldFrame;
                     case 'a':
                         finalWorldFrame[map.player.x][map.player.y] = Tileset.FLOOR;
                         finalWorldFrame[map.player.x - 1][map.player.y] = Tileset.PLAYER;
                         map.player.x -= 1;
-                        ter.renderFrame(finalWorldFrame);
+                        //ter.renderFrame(finalWorldFrame);
                         return finalWorldFrame;
                     case 's':
                         finalWorldFrame[map.player.x][map.player.y] = Tileset.FLOOR;
                         finalWorldFrame[map.player.x][map.player.y - 1] = Tileset.PLAYER;
                         map.player.y -= 1;
-                        ter.renderFrame(finalWorldFrame);
+                        //ter.renderFrame(finalWorldFrame);
                         return finalWorldFrame;
                     case 'd':
                         finalWorldFrame[map.player.x][map.player.y] = Tileset.FLOOR;
                         finalWorldFrame[map.player.x + 1][map.player.y] = Tileset.PLAYER;
                         map.player.x += 1;
-                        ter.renderFrame(finalWorldFrame);
+                        //ter.renderFrame(finalWorldFrame);
                         return finalWorldFrame;
                     default:
                 }
@@ -203,7 +203,9 @@ public class Game {
         }
 
         startANewGame(input);
-
+        ter.initialize(WIDTH, HEIGHT);
+        ter.renderFrame(finalWorldFrame);
+        operation();
     }
 
     public void handleKeyEvent() {
@@ -220,6 +222,7 @@ public class Game {
                         break;
                     case 'l':
                         loadWorld();
+                        ter.renderFrame(finalWorldFrame);
                         operation();
                         break;
                     default:
@@ -246,7 +249,7 @@ public class Game {
                 os.close();
                 os2.close();
 
-                ter.renderFrame(w);
+                //ter.renderFrame(w);
             } catch (FileNotFoundException e) {
                 System.out.println("file not found");
                 System.exit(0);
@@ -300,12 +303,12 @@ public class Game {
             newGame = true;
             Long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
             Random random = new Random(seed);
-            ter.initialize(WIDTH, HEIGHT);
+            //ter.initialize(WIDTH, HEIGHT);
             finalWorldFrame = new TETile[WIDTH][HEIGHT];
             initialization(finalWorldFrame);
             map = new MapGenerator(random, finalWorldFrame);
             finalWorldFrame = map.worldGenerator();
-            ter.renderFrame(finalWorldFrame);
+            //ter.renderFrame(finalWorldFrame);
         }
 
         char[] c = input.toCharArray();
@@ -332,14 +335,14 @@ public class Game {
                         move(step[i]);
                     } else if (step[i] == ':' && step[i + 1] == 'Q') {
                         saveWorld();
-                        System.exit(0);
-                        break;
+                        //System.exit(0);
+                        return finalWorldFrame;
                     }
                 }
             }
         }
 
-        operation();
+        //operation();
 
         return finalWorldFrame;
     }
@@ -369,10 +372,10 @@ public class Game {
     public TETile[][] playWithInputString(String input) {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
         finalWorldFrame = new TETile[WIDTH][HEIGHT];
         initialization(finalWorldFrame);
-        ter.renderFrame(finalWorldFrame);
+        //ter.renderFrame(finalWorldFrame);
         finalWorldFrame = startANewGame(input);
         return finalWorldFrame;
     }
