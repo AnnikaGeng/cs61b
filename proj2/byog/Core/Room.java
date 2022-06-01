@@ -52,8 +52,8 @@ public class Room implements Comparable {
     }
 
     private static Room randomRoom(Random random, TETile[][] world) {
-        int x = random.nextInt(2, world.length - 8);
-        int y = random.nextInt(1, world[0].length - 8);
+        int x = RandomUtils.uniform(random, 2, world.length - 8);
+        int y = RandomUtils.uniform(random, 1, world[0].length - 8);
         Position p = new Position(x, y);
 
         int width = 4 + random.nextInt(8);
@@ -155,8 +155,8 @@ public class Room implements Comparable {
     }
 
     public static Position pickARandomPosition(Random random, Room r) {
-        int x = random.nextInt(1, r.width - 1);
-        int y = random.nextInt(1, r.height - 1);
+        int x = RandomUtils.uniform(random, 1, r.width - 1);
+        int y = RandomUtils.uniform(random, 1, r.height - 1);
         return new Position(r.position.x + x, r.position.y + y);
     }
 

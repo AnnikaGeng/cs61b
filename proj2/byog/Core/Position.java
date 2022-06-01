@@ -1,10 +1,10 @@
 package byog.Core;
 
-import java.io.Serial;
+
 import java.io.Serializable;
 
 public class Position implements Serializable {
-    @Serial
+
     private static final long serialVersionUID = 3828223529611834930L;
     protected int x;
     protected int y;
