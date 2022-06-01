@@ -1,21 +1,16 @@
 package byog.Core;
-
-
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Collections;
-
 public class Room implements Comparable {
     private int height;
     private int width;
     private final Position position;
 
-    private static Random RANDOM;
+    //private static Random RANDOM;
 
     public Room(int width, int height, Position position) {
         this.height = height;
@@ -53,13 +48,14 @@ public class Room implements Comparable {
         }
     }
 
-    private static Room randomRoom(TETile[][] world) {
-        int x = 2 + RANDOM.nextInt(world.length - 8);
-        int y = 1 + RANDOM.nextInt(world[0].length - 8);
+
+    private static Room randomRoom(Random random, TETile[][] world) {
+        int x = RandomUtils.uniform(random, 2, world.length - 8);
+        int y = RandomUtils.uniform(random, 1, world[0].length - 8);
         Position p = new Position(x, y);
 
-        int width = 4 + RANDOM.nextInt(8);
-        int height = 4 + RANDOM.nextInt(8);
+        int width = 4 + random.nextInt(8);
+        int height = 4 + random.nextInt(8);
         Room room = new Room(width, height, p);
         return room;
     }
@@ -128,6 +124,7 @@ public class Room implements Comparable {
         }
     }
 
+
     private static void removeOutOfBoundary(TETile[][] world, List<Room> rooms) {
         for (int i = 0; i < rooms.size(); i++) {
             Position[] cornerPosition = cornerPosition(rooms.get(i));
@@ -156,9 +153,10 @@ public class Room implements Comparable {
         return 0;
     }
 
-    public static Position pickARandomPosition(Room r) {
-        int x = 1 + RANDOM.nextInt(r.width - 1);
-        int y = 1 + RANDOM.nextInt(r.height - 1);
+
+    public static Position pickARandomPosition(Random random, Room r) {
+        int x = RandomUtils.uniform(random, 1, r.width - 1);
+        int y = RandomUtils.uniform(random, 1, r.height - 1);
         return new Position(r.position.x + x, r.position.y + y);
     }
 
@@ -281,12 +279,12 @@ public class Room implements Comparable {
         drawHallway(world, p, width, height, direction);
     }
 
-    public static void connectRooms(TETile[][] world, List<Room> rooms) {
+    public static void connectRooms(Random random, TETile[][] world, List<Room> rooms) {
         Collections.sort(rooms);
         int i, j;
         for (i = 0, j = 1; i < rooms.size() - 1; i++, j++) {
-            Position p1 = pickARandomPosition(rooms.get(i));
-            Position p2 = pickARandomPosition(rooms.get(j));
+            Position p1 = pickARandomPosition(random, rooms.get(i));
+            Position p2 = pickARandomPosition(random, rooms.get(j));
             connectPosition(world, p1, p2);
         }
     }
@@ -313,11 +311,10 @@ public class Room implements Comparable {
 
 
     public static List<Room> roomGenerator(Random random, TETile[][] world) {
-        RANDOM = random;
-        int roomNum = 90 + RANDOM.nextInt(10);
+        int roomNum = 90 + random.nextInt(10);
         List<Room> rooms = new LinkedList<>();
         for (int i = 0; i < roomNum; i++) {
-            rooms.add(Room.randomRoom(world));
+            rooms.add(Room.randomRoom(random, world));
         }
         removeOverlap(rooms);
         for (Room r: rooms) {
@@ -343,12 +340,12 @@ public class Room implements Comparable {
         return floor && nothing;
     }
 
-    public static Position addDoor(TETile[][] world) {
+    public static Position addDoor(Random random, TETile[][] world) {
         int x;
         int y;
         while (true) {
-            x = RANDOM.nextInt(world.length - 4);
-            y = RANDOM.nextInt(world[0].length - 4);
+            x = random.nextInt(world.length - 4);
+            y = random.nextInt(world[0].length - 4);
             if (world[x][y] == Tileset.WALL) {
                 Position p = new Position(x, y);
                 if (validDoor(p, world)) {
@@ -360,12 +357,12 @@ public class Room implements Comparable {
         return new Position(x, y);
     }
 
-    public static Position addPlayer(TETile[][] world) {
+    public static Position addPlayer(Random random, TETile[][] world) {
         int x;
         int y;
         while (true) {
-            x = RANDOM.nextInt(world.length - 5);
-            y = RANDOM.nextInt(world[0].length - 5);
+            x = random.nextInt(world.length - 5);
+            y = random.nextInt(world[0].length - 5);
             if (world[x][y] == Tileset.FLOOR) {
                 world[x][y] = Tileset.PLAYER;
                 break;

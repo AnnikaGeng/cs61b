@@ -7,13 +7,14 @@ public class DebugExercise2 {
       * This function may have a bug, but if it does, you should find it
       * by stepping over, not into. */
     public static int max(int a, int b) {
-        int w = (b - a) >> 31;
-        /* If you're stepping into this function, click the
-           step out button because you're not going to learn anything. */
+        /* int w = (b - a) >> 31;
+        If you're stepping into this function, click the
+           step out button because you're not going to learn anything.
         int z = ~(b - a) >> 31;
 
         int max = b & w | a & z;
-        return max;
+        return max; */
+        return Math.max(a,b);
     }
 
 
@@ -21,9 +22,9 @@ public class DebugExercise2 {
       * This function may have a bug, but if it does, you should find it
       * by stepping over, not into. */    
     public static int add(int a, int b) {
-        int x = a, y = b;
-        /* If you're stepping into this function, click the
-           step out button because you're not going to learn anything. */
+        /* int x = a, y = b;
+        If you're stepping into this function, click the
+           step out button because you're not going to learn anything.
         int xor, and, temp;
         and = x & y;
         xor = x ^ y;
@@ -34,7 +35,8 @@ public class DebugExercise2 {
             and &= xor;
             xor = temp;
         }
-        return xor;
+        return xor;*/
+        return a + b;
     }
 
     /** Returns a new array where entry i is the max of
@@ -60,7 +62,7 @@ public class DebugExercise2 {
         int i = 0;
         int sum = 0;
         while (i < x.length) {
-            sum = sum + add(sum, x[i]);
+            sum = add(sum, x[i]);
             i = i + 1;
         }
         return sum;
@@ -78,8 +80,8 @@ public class DebugExercise2 {
 
 
     public static void main(String[] args) {
-        int[] a = {1, 11, -1, -11};
-        int[] b = {3, -3, 2, -1};
+        int[] a = {2, 0, 10, 14};
+        int[] b = {-5, 5, 20, 30};
 
         int sumOfElementwiseMaxes = sumOfElementwiseMaxes(a, b);
         System.out.println(sumOfElementwiseMaxes);

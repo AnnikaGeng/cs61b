@@ -1,5 +1,9 @@
 package byog.Core;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> newbranch
 import java.io.Serializable;
 
 public class Position implements Serializable {

@@ -19,11 +19,11 @@ public class MapGenerator implements Serializable {
 
     public TETile[][] worldGenerator() {
         List<Room> rooms = Room.roomGenerator(random, world);
-        Room.connectRooms(world, rooms);
-        Room.connectRooms(world, rooms);
+        Room.connectRooms(random, world, rooms);
+        Room.connectRooms(random, world, rooms);
         Room.beautify(world);
-        door = Room.addDoor(world);
-        player = Room.addPlayer(world);
+        door = Room.addDoor(random, world);
+        player = Room.addPlayer(random,world);
         return world;
     }
 
