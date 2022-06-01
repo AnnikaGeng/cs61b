@@ -294,11 +294,11 @@ public class Game {
         }
     }
 
-    public Long toDigit(String input){
+    public Long toDigit(String input) {
         char[] c = input.toCharArray();
         int count = 0;
-        for (int i = 0; i < input.length(); i++){
-            if (Character.isDigit(c[i])){
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isDigit(c[i])) {
                 count++;
             }
         }
