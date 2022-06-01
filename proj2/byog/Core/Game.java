@@ -294,6 +294,31 @@ public class Game {
         }
     }
 
+    public Long toDigit(String input){
+        char[] c = input.toCharArray();
+        int count = 0;
+        for (int i = 0; i < input.length(); i++){
+            if (Character.isDigit(c[i])){
+                count++;
+            }
+        }
+        int[] arr = new int[count];
+
+        count = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isDigit(c[i])) {
+                arr[count] = c[i] - '0';
+                count++;
+            }
+        }
+        StringBuilder builder = new StringBuilder();
+        for (int i : arr) {
+            builder.append(i);
+        }
+        long requestLong = Long.parseLong(builder.toString());
+        return requestLong;
+    }
+
     public TETile[][] startANewGame(String input) {
         boolean newGame = false;
 
@@ -301,7 +326,8 @@ public class Game {
             loadWorld();
         } else {
             newGame = true;
-            Long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
+            //Long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
+            Long seed = toDigit(input);
             Random random = new Random(seed);
             //ter.initialize(WIDTH, HEIGHT);
             finalWorldFrame = new TETile[WIDTH][HEIGHT];
