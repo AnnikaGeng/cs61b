@@ -3,10 +3,12 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private int size;
+    private int N;
     private boolean[][] grid;
-    private int[][] arr;
-    private WeightedQuickUnionUF uf;
+    private WeightedQuickUnionUF sites;
+    private WeightedQuickUnionUF sites2;
+    private int topSite;
+    private int bottomSite;
     private int count = 0;
 
     // create N-by-N grid, with all sites initially blocked
@@ -14,19 +16,29 @@ public class Percolation {
         if (N <= 0) {
             throw new IllegalArgumentException("please enter a integer greater than zero");
         }
-        size = N;
+        this.N = N;
         grid = new boolean[N][N];
-        arr = new int[N][N];
+        topSite = N * N;
+        bottomSite = N * N + 1;
+
+        sites = new WeightedQuickUnionUF(N * N + 2);
+        for (int i = 0; i < N; i++) {
+            sites.union(topSite, helper(0, i));
+        }
+
+        for (int i = 0; i < N; i++) {
+            sites.union(bottomSite, helper(N - 1, i));
+        }
+
+        sites2 = new WeightedQuickUnionUF(N * N + 1);
+        for (int i = 0; i < N; i++) {
+            sites2.union(topSite, helper(0, i));
+        }
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 grid[i][j] = false;
-                arr[i][j] = helper(i, j);
             }
-        }
-        uf = new WeightedQuickUnionUF(N * N + 2);
-        for (int j = 0; j < N; j++) {
-            uf.union(arr[0][j], N * N + 1);
-            uf.union(arr[N - 1][j], N * N);
         }
     }
 
@@ -36,38 +48,48 @@ public class Percolation {
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
+        validRange(row, col);
+
         if (!isOpen(row, col)) {
             grid[row][col] = true;
             count += 1;
-            if (isOpen(row - 1, col)) {
-                uf.union(helper(row - 1, col), arr[row][col]);
-            }
-            if (isOpen(row + 1, col)) {
-                uf.union(helper(row + 1, col), arr[row][col]);
-            }
-            if (isOpen(row, col - 1)) {
-                uf.union(helper(row, col - 1), arr[row][col]);
-            }
-            if (isOpen(row, col + 1)) {
-                uf.union(helper(row, col + 1), arr[row][col]);
-            }
+            unionNeighbor(row, col, row + 1, col);
+            unionNeighbor(row, col, row - 1, col);
+            unionNeighbor(row, col, row, col + 1);
+            unionNeighbor(row, col, row, col - 1);
+        }
+    }
+
+    private void unionNeighbor(int row, int col, int newRow, int newCol) {
+        if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
+            return;
+        }
+
+        if (grid[newRow][newCol]) {
+            sites.union(helper(row, col), helper(newRow, newCol));
+            sites2.union(helper(row, col), helper(newRow, newCol));
+        }
+    }
+
+    private void validRange(int row, int col) {
+        if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
+            throw new IndexOutOfBoundsException();
         }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
-            return false;
-        }
+        validRange(row, col);
         return grid[row][col];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        validRange(row, col);
         if (!isOpen(row, col)) {
             return false;
         }
-        return uf.connected(arr[row][col], size * size + 1);
+        return sites2.connected(topSite, helper(row, col));
     }
 
     // number of open sites
@@ -77,7 +99,10 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return uf.connected(size * size + 1, size * size);
+        if (count == 0) {
+            return false;
+        }
+        return sites.connected(topSite, bottomSite);
     }
 
     public static void main(String[] args) {
