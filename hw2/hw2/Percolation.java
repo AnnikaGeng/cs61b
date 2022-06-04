@@ -61,7 +61,7 @@ public class Percolation {
     }
 
     private void unionNeighbor(int row, int col, int newRow, int newCol) {
-        if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
+        if (newRow < 0 || newRow >= grid.length || newCol < 0 || newCol >= grid[0].length) {
             return;
         }
 
