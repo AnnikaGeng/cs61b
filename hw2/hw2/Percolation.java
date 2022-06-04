@@ -79,4 +79,7 @@ public class Percolation {
     public boolean percolates() {
         return uf.connected(size * size + 1, size * size);
     }
+
+    public static void main(String[] args) {
+    }
 }

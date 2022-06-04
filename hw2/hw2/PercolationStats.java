@@ -11,16 +11,17 @@ public class PercolationStats {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("please enter a number greater than 0");
         }
+        this.T = T;
         openSiteFraction = new double[T];
         for (int i = 0; i < T; i++) {
             Percolation percolation = pf.make(N);
             while (!percolation.percolates()) {
-                int r;
-                int c;
-                r = StdRandom.uniform(N);
-                c = StdRandom.uniform(N);
+                int r = StdRandom.uniform(N);
+                int c = StdRandom.uniform(N);
                 if (!percolation.isOpen(r, c)) {
                     percolation.open(r, c);
+                } else {
+                    continue;
                 }
             }
             openSiteFraction[i] = (double) percolation.numberOfOpenSites() / (N * N);
@@ -46,5 +47,7 @@ public class PercolationStats {
     public double confidenceHigh() {
         return mean() + 1.96 * stddev() / Math.sqrt(T);
     }
+
+
 
 }
