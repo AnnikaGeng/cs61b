@@ -33,7 +33,7 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            return red / 5 + green / 5 * 998 + blue / 5 * 997;
+            return red / 5 + green / 5 * 99 + blue / 5 * 99 * 99;
         }
     }
 

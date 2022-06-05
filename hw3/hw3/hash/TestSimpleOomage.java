@@ -31,8 +31,11 @@ public class TestSimpleOomage {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
         SimpleOomage ooB = new SimpleOomage(10, 5, 20);
         SimpleOomage ooC = new SimpleOomage(5, 10, 20);
+        SimpleOomage ooD = new SimpleOomage(0, 5, 0);
+        SimpleOomage ooE = new SimpleOomage(5, 0, 5);
         assertFalse(ooA.hashCode() == ooB.hashCode());
         assertTrue(ooA.hashCode() == ooC.hashCode());
+        assertFalse(ooD.hashCode() == ooE.hashCode());
     }
 
     @Test
