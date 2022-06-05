@@ -96,11 +96,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        if (size == 0) {
+        if (size() == 0) {
             return null;
         }
         Set<K> keySet = new HashSet<>();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < buckets.length; i++) {
             keySet.addAll(buckets[i].keySet());
         }
         return keySet;
