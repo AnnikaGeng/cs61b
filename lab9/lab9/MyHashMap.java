@@ -128,4 +128,18 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     public Iterator<K> iterator() {
         return keySet().iterator();
     }
+
+    public static void main(String[] args) {
+        MyHashMap mhm = new MyHashMap();
+        mhm.put("hello", 5);
+        mhm.put("cat", 10);
+        mhm.put("fish", 22);
+        mhm.put("zebra", 90);
+        mhm.put("zebra", 50);
+        mhm.remove("fis");
+        Iterator<String> a = mhm.iterator();
+        while(a.hasNext()){
+            System.out.println(a.next());
+        }
+    }
 }
