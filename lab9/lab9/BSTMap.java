@@ -190,7 +190,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         bstmap.put("zebra", 90);
         bstmap.remove("hello");
         Iterator<String> a = bstmap.iterator();
-        while(a.hasNext()){
+        while (a.hasNext()) {
             System.out.println(a.next());
         }
     }

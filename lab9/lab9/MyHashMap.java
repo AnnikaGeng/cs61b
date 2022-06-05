@@ -138,7 +138,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         mhm.put("zebra", 50);
         mhm.remove("fis");
         Iterator<String> a = mhm.iterator();
-        while(a.hasNext()){
+        while (a.hasNext()) {
             System.out.println(a.next());
         }
     }
