@@ -2,7 +2,11 @@ package hw4.puzzle;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Comparator;
+import java.util.ArrayList;
 
 public class Solver {
     private Map<WorldState, Integer> edtgCaches = new HashMap<>();
@@ -12,7 +16,7 @@ public class Solver {
         private int moves = 0;
         private SearchNode prev;
 
-        public SearchNode(WorldState state, int moves, SearchNode prev) {
+        SearchNode(WorldState state, int moves, SearchNode prev) {
             this.state = state;
             this.moves = moves;
             this.prev = prev;
