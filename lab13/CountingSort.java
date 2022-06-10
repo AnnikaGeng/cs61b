@@ -1,3 +1,4 @@
+
 /**
  * Class with 2 ways of doing Counting sort, one naive way and one "better" way
  *
@@ -66,7 +67,51 @@ public class CountingSort {
      * @param arr int array that will be sorted
      */
     public static int[] betterCountingSort(int[] arr) {
-        // TODO make counting sort work with arrays containing negative numbers.
-        return null;
+        // find max and min
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int i : arr) {
+            if (i > max) {
+                max = i;
+            } else if (i < min) {
+                min = i;
+            }
+        }
+
+        if (min >= 0) {
+            return naiveCountingSort(arr);
+        } else {
+            int negativeNum = Math.abs(min);
+            int[] counts = new int[negativeNum + max + 1];
+            for (int i : arr) {
+                if (i >= 0) {
+                    counts[negativeNum + i] += 1;
+                } else {
+                    counts[Math.abs(i) % negativeNum] += 1;
+                }
+            }
+
+            int[] starts = new int[negativeNum + max + 1];
+            int pos = 0;
+            for (int i = 0; i < starts.length; i++) {
+                starts[i] = pos;
+                pos += counts[i];
+            }
+
+            int[] sorted2 = new int[arr.length];
+            for (int i = 0; i < arr.length; i++) {
+                int item = arr[i];
+                int place;
+                if (item >= 0) {
+                    place = starts[Math.abs(item) + negativeNum];
+                    starts[Math.abs(item) + negativeNum] += 1;
+                } else {
+                    place = starts[Math.abs(item) % negativeNum];
+                    starts[Math.abs(item) % negativeNum] += 1;
+                }
+                sorted2[place] = item;
+            }
+            return sorted2;
+        }
     }
 }
